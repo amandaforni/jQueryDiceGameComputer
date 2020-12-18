@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <Title>Dice Game</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+    </style>
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
+
+<body>
+    <header>
+        <a><img src="menu-white.png" alt="Menu icon" id="menuIcon"></a>
+        <nav id="help" class="help">
+            <h2>How to Play!</h2>
+            <p>* Take turns rolling the dice
+                <br> * If either player rolls a one, they lose
+                <br> * If either player score hits twenty, they lose
+                <br> * The first player to go over 20 without
+                <br> hitting it wins the game!
+            </p>
+        </nav>
+    </header>
+    <div class="wrap">
+        <h1>The Dice Game!</h1>
+        <div class="glass">
+            <div class="players">
+                <div id="player1">
+                    <h2>Player 1</h2>
+                    <br>
+
+                    <div id="content1">
+                        <img src="img/dice1.png" id="image1">
+                        <br>
+                        <h3>Score:</h3>
+                        <h3 id="score1"></h3>
+                        <div>
+                            <button type="button" class="roll1">Player 1 Roll</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="player2">
+                    <h2>Computer</h2>
+                    <br>
+
+                    <div id="content2">
+                        <img src="img/dice1.png" id="image2">
+                        <br>
+                        <h3>Score:</h3>
+                        <h3 id="score2"></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="restart">
+                <button type="button" id="restart">Restart Game</button>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(document).ready(function () {
+
+            let playerScore1 = 0;
+            let playerScore2 = 0;
+            let playscore1 = document.getElementById("score1");
+            let playscore2 = document.getElementById("score2");
+            let img1 = document.getElementById("image1");
+            let img2 = document.getElementById("image2");
+
+            const rollDie1 = () => {
+                let dice1 = Math.floor(Math.random() * 6) + 1;
+                img1.src = "./img/dice" + dice1 + ".png";
+                playscore1.textContent = dice1;
+
+                if (dice1 !== 1) {
+                    playerScore1 += dice1;
+                    $("#score1").html(playerScore1);
+                }
+                else {
+                    $(".players").html("<h3>Player 1 rolled a one, Computer wins!</h3>");
+                }
+
+                if (playerScore1 === 20) {
+                    $(".players").html("<h3>Player 1's score hit 20, Computer wins!</h3>");
+                }
+
+                else if (playerScore1 > 20) {
+                    $(".players").html("<h3>Player 1 wins!</h3>");
+                }
+            }
+
+            const rollDie2 = () => {
+                let dice2 = Math.floor(Math.random() * 6) + 1;
+                img2.src = "./img/dice" + dice2 + ".png";
+                playscore2.textContent = dice2;
+
+                if (dice2 !== 1) {
+                    playerScore2 += dice2;
+                    $("#score2").html(playerScore2);
+                }
+                else {
+                    $(".players").html("<h3>Computer rolled a one, Player 1 wins!</h3>");
+                }
+
+                if (playerScore2 === 20) {
+                    $(".players").html("<h3>Computer's score hit 20, Player 1 wins!</h3>");
+                }
+
+                else if (playerScore2 > 20) {
+                    $(".players").html("<h3>Computer wins!</h3>");
+                }
+            }
+
+
+            $(".roll1").click(function () {
+                rollDie1();
+                setTimeout(function(){ 
+                    rollDie2();
+                 }, 500);
+            })
+
+            $("#restart").click(function () {
+                location.reload();
+            })
+
+            $("#help").hide();
+
+            $("#menuIcon").click(function () {
+                $("#help").toggle("slideDown");
+            });
+        });
+
+    </script>
+</body>
+
+</html>
